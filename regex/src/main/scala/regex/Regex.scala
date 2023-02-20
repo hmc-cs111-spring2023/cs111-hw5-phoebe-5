@@ -7,6 +7,15 @@ package regex
   */
 
 // Add your definitions here
+trait RegularLanguage
+
+case object Empty
+case object Star
+
+// case class Epsilon
+// case class Character
+// case class Union
+// case class Concat
 
 /** *****************************************************************************
   * Derivatives
