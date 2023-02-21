@@ -55,7 +55,15 @@ def nullable(lang: RegularLanguage): Boolean = lang match
 
 
 /** Computes the derivative of a language, with respect to a character */
-def derivative(l: RegularLanguage)(c: Char): RegularLanguage = ???
+def derivative(l: RegularLanguage)(c: Char): RegularLanguage = l match
+  case Character(d) if d == c => Epsilon
+  case Empty | Epsilon | Character(_) => Empty
+
+  case Union(firstLang, secondLang) => Union(derivative(firstLang)(c), derivative(secondLang)(c))
+  case Concat(firstLang, secondLang) if !nullable(firstLang) => Concat(derivative(firstLang)(c), secondLang)
+  case Concat(firstLang, secondLang) => Union(Concat(derivative(firstLang)(c), secondLang), derivative(secondLang)(c))
+  case Star(lang) => Concat(derivative(lang)(c), Star(lang))
+
 
 /** *****************************************************************************
   * String-matching with regular expressions
