@@ -1,23 +1,23 @@
 package dfa // leave this line in the file
 
-// TODO: replace this comment with your implementation
 case class State(label: String)
-case class Transition(from: State, symbol: Char, to: State)
+case class Transition(from: State, to: State, symbol: Char)
 
-class DFA(val state: Set[State], val transitions: Set[Transition],
-    val startState: State, val acceptingStates: Set[State]):
-
-    def accept(line: String): Boolean = {
-        var currState = startState
+class DFA(val states: Set[State], val transitions: Set[Transition],
+    val start: State, val accept: Set[State]):
+    
+    def accepts(line: String): Boolean = {
+        var currState = start
         // char by char -> for loop c
         for (c <- line) {
-            // TODO: find transition(from: currState, symbol: currChar)
-            val currTransition = transitions.head
+            val currTransition = transitions
+                .filter(_.from == currState)
+                .filter(_.symbol == c)
 
             // set new state
-            currState = currTransition.to
+            currState = currTransition.head.to
         }
 
-        if acceptingStates.contains(currState) then true
+        if accept.contains(currState) then true
         else false
     }
