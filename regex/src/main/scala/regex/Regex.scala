@@ -44,7 +44,15 @@ def simplify(lang: RegularLanguage): RegularLanguage = lang match
   case _ => lang
 
 /** A language is nullable if it contains ε */
-def nullable(lang: RegularLanguage): Boolean = ???
+def nullable(lang: RegularLanguage): Boolean = lang match
+  case Empty | Character(_) => false
+  case Epsilon | Star(_) => true
+
+  case Concat(firstLang, secondLang) => nullable(firstLang) & nullable(secondLang)
+  case Union(firstLang, secondLang) => nullable(firstLang) | nullable(secondLang)
+  case _ => nullable(simplify(lang))
+
+
 
 /** Computes the derivative of a language, with respect to a character */
 def derivative(l: RegularLanguage)(c: Char): RegularLanguage = ???
