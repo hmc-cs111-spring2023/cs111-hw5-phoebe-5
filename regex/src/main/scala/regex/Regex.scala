@@ -24,7 +24,24 @@ case class Concat(val firstLang: RegularLanguage, val secondLang: RegularLanguag
   */
 
 /** Simplifies a regular language */
-def simplify(lang: RegularLanguage): RegularLanguage = ???
+def simplify(lang: RegularLanguage): RegularLanguage = lang match
+  // base case
+  case (Star(Epsilon)) => Epsilon
+  case (Star(Empty)) => Empty
+
+  // recursive cases
+  case Concat(Empty, _) | Concat(_, Empty) => simplify(Empty)
+
+  case Concat(Epsilon, lang) => simplify(lang)
+  case Concat(lang, Epsilon) => simplify(lang)
+  case Union(Empty, lang) => simplify(lang)
+  case Union(lang, Empty) => simplify(lang)
+
+  case Concat(firstLang, secondLang) => Concat(simplify(firstLang), simplify(secondLang))
+  case Union(firstLang, secondLang) => Union(simplify(firstLang), simplify(secondLang))
+  case Star(lang) => Star(simplify(lang))
+
+  case _ => lang
 
 /** A language is nullable if it contains ε */
 def nullable(lang: RegularLanguage): Boolean = ???
