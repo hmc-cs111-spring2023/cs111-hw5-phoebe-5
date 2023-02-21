@@ -9,13 +9,13 @@ package regex
 // Add your definitions here
 trait RegularLanguage
 
-case object Empty
-case object Star
+case object Empty extends RegularLanguage
+case object Epsilon extends RegularLanguage
 
-// case class Epsilon
-// case class Character
-// case class Union
-// case class Concat
+case class Character(val c: Char) extends RegularLanguage
+case class Star(val pattern: RegularLanguage) extends RegularLanguage
+case class Union(val firstLang: RegularLanguage, val secondLang: RegularLanguage) extends RegularLanguage
+case class Concat(val firstLang: RegularLanguage, val secondLang: RegularLanguage) extends RegularLanguage
 
 /** *****************************************************************************
   * Derivatives

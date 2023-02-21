@@ -8,13 +8,11 @@ class DFA(val states: Set[State], val transitions: Set[Transition],
     
     def accepts(line: String): Boolean = {
         var currState = start
-        // char by char -> for loop c
         for (c <- line) {
             val currTransition = transitions
                 .filter(_.from == currState)
                 .filter(_.symbol == c)
 
-            // set new state
             currState = currTransition.head.to
         }
 
