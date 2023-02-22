@@ -9,6 +9,7 @@ class DFA(val states: Set[State], val transitions: Set[Transition],
     def accepts(line: String): Boolean = {
         var currState = start
         for (c <- line) {
+            // retrieve next state with transition
             val currTransition = transitions
                 .filter(_.from == currState)
                 .filter(_.symbol == c)
@@ -16,6 +17,5 @@ class DFA(val states: Set[State], val transitions: Set[Transition],
             currState = currTransition.head.to
         }
 
-        if accept.contains(currState) then true
-        else false
+        accept.contains(currState)
     }
